@@ -110,16 +110,17 @@
               <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white font-mono">
                 HAZOP<span class="text-cyan-400">MasterLab</span> <span class="text-[10px] text-amber-400 font-bold px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800">IEC 61882 / 61511</span>
               </h1>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-slate-300 font-mono border border-slate-700 hidden sm:inline">v4.1 PRO & HDS</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-slate-300 font-mono border border-slate-700 hidden sm:inline">v4.2 PRO (7 Plantas)</span>
             </div>
             <p class="text-[11px] text-slate-400">Plataforma de Análisis de Riesgos de Proceso, Selección de Nodos y Trampas Pedagógicas</p>
           </div>
         </div>
 
-        <!-- Selector de Planta (6 Plantas Industriales) -->
+        <!-- Selector de Planta (7 Plantas Industriales) -->
         <div class="flex items-center gap-2">
           <select id="plant-select" onchange="onPlantChange(this.value)" class="bg-slate-900 border border-slate-700 hover:border-cyan-400 text-cyan-300 font-mono text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all cursor-pointer">
-            <option value="hds" selected>⭐ 6. Hidrodesulfuración Catalítica HDS (6 Nodos)</option>
+            <option value="toxic" selected>⭐ 7. Descarga Cisterna Tóxica/Inflamable y TK-701 (4 Nodos)</option>
+            <option value="hds">6. Hidrodesulfuración Catalítica HDS (6 Nodos)</option>
             <option value="cstr">1. CSTR Exotérmico con Camisa (R-101)</option>
             <option value="distillation">2. Columna Destilación Binaria (C-201)</option>
             <option value="separator">3. Separador Trifásico HP (V-301)</option>
@@ -426,72 +427,615 @@
               <path d="M 560 200 L 605 200" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
             </svg>
 
-            <!-- OTROS 5 P&IDs (CSTR, Destilación, Separador, Horno, Criogénica) -->
-            <svg id="svg-plant-cstr" viewBox="0 0 640 400" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
-              <rect width="640" height="400" fill="#02050e"/>
+            <!-- PLANTA 1: CSTR EXOTÉRMICO CON CAMISA (R-101) - 3 NODOS -->
+            <svg id="svg-plant-cstr" viewBox="0 0 720 440" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
+              <pattern id="grid-cstr" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0e172e" stroke-width="0.5"/>
+              </pattern>
+              <rect width="720" height="440" fill="url(#grid-cstr)"/>
+
+              <!-- NODO 1: Alimentación y Bombeo P-101 -->
               <g id="cstr-node-1" class="cursor-pointer" onclick="selectNode(1)">
-                <rect x="20" y="40" width="240" height="90" rx="8" class="node-idle node-box" />
-                <rect x="25" y="30" width="65" height="18" rx="4" fill="#1e3a8a" />
-                <text x="57" y="42" text-anchor="middle" font-size="9" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 1</text>
-                <path d="M 25 80 L 180 80" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
-                <circle cx="105" cy="80" r="16" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-                <text x="105" y="108" text-anchor="middle" font-size="8" fill="#94a3b8" font-family="monospace">P-101</text>
+                <rect x="20" y="50" width="210" height="150" rx="8" class="node-idle node-box" />
+                <rect x="25" y="40" width="60" height="16" rx="3" fill="#1e3a8a" />
+                <text x="55" y="51" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 1</text>
+
+                <!-- Tanque de reactivo TK-100 -->
+                <rect x="35" y="70" width="45" height="75" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1.8"/>
+                <text x="57" y="112" text-anchor="middle" font-size="7" fill="#94a3b8" font-family="monospace">TK-100</text>
+                <text x="57" y="123" text-anchor="middle" font-size="5.5" fill="#64748b" font-family="monospace">REACTIVO A</text>
+
+                <!-- Bomba P-101 A/B -->
+                <path d="M 80 120 L 115 120" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+                <circle cx="125" cy="120" r="13" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+                <text x="125" y="145" text-anchor="middle" font-size="7" fill="#94a3b8" font-family="monospace">P-101</text>
+
+                <!-- Lazo FCV-101 y FT-101 -->
+                <path d="M 138 120 L 175 120" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+                <circle cx="160" cy="98" r="8" fill="#0b1329" stroke="#38bdf8" stroke-width="1.2"/>
+                <text x="160" y="101" text-anchor="middle" font-size="6" fill="#38bdf8" font-family="monospace">FT</text>
+                <line x1="160" y1="106" x2="160" y2="114" stroke="#38bdf8" stroke-width="1" stroke-dasharray="2 2"/>
+
+                <g transform="translate(170, 112)">
+                  <polygon points="0,0 12,16 12,0 0,16" fill="#0284c7" stroke="#7dd3fc" stroke-width="1"/>
+                  <circle cx="6" cy="-4" r="5" fill="#1e293b" stroke="#7dd3fc" stroke-width="1"/>
+                  <text x="6" y="24" text-anchor="middle" font-size="6" fill="#7dd3fc" font-family="monospace">FCV-101</text>
+                </g>
+                <path d="M 182 120 L 230 120" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
               </g>
+
+              <!-- NODO 2: Reactor R-101, Agitador M-101 y Alivio PSV -->
               <g id="cstr-node-2" class="cursor-pointer" onclick="selectNode(2)">
-                <rect x="235" y="110" width="180" height="210" rx="10" class="node-idle node-box" />
-                <rect x="290" y="115" width="65" height="18" rx="4" fill="#0f766e" />
-                <text x="322" y="127" text-anchor="middle" font-size="9" fill="#99f6e4" font-family="monospace" font-weight="bold">NODO 2</text>
-                <rect x="260" y="140" width="130" height="145" rx="22" fill="#1e293b" stroke="#64748b" stroke-width="2.5"/>
-                <text x="325" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">R-101</text>
+                <rect x="250" y="40" width="220" height="340" rx="8" class="node-idle node-box" />
+                <rect x="255" y="30" width="60" height="16" rx="3" fill="#0f766e" />
+                <text x="285" y="41" text-anchor="middle" font-size="8" fill="#99f6e4" font-family="monospace" font-weight="bold">NODO 2</text>
+
+                <!-- Vasija del Reactor R-101 -->
+                <rect x="290" y="90" width="140" height="190" rx="22" fill="#1e293b" stroke="#64748b" stroke-width="2.5"/>
+                
+                <!-- Masa de líquido reactivo con agitación -->
+                <rect x="295" y="150" width="130" height="120" rx="14" fill="#0284c7" opacity="0.3"/>
+                <line x1="295" y1="150" x2="425" y2="150" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <text x="360" y="166" text-anchor="middle" font-size="7" font-weight="bold" fill="#7dd3fc" font-family="monospace">NIVEL: 65%</text>
+
+                <!-- Motor del Agitador M-101 y eje -->
+                <rect x="345" y="55" width="30" height="24" rx="3" fill="#334155" stroke="#f59e0b" stroke-width="1.5"/>
+                <text x="360" y="70" text-anchor="middle" font-size="7" font-weight="bold" fill="#fde047" font-family="monospace">M-101</text>
+                <line x1="360" y1="79" x2="360" y2="245" stroke="#94a3b8" stroke-width="3"/>
+                <!-- Impulsor de turbina -->
+                <path d="M 330 235 L 390 235 M 330 245 L 390 245" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+
+                <text x="360" y="115" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">R-101</text>
+                <text x="360" y="126" text-anchor="middle" font-size="6.5" fill="#94a3b8" font-family="monospace">5 m³ / 65°C / 1.8 bar</text>
+
+                <!-- Transmisor TT-101 y LT-101 -->
+                <circle cx="410" cy="190" r="7" fill="#0b1329" stroke="#38bdf8" stroke-width="1.2"/>
+                <text x="410" y="193" text-anchor="middle" font-size="6" fill="#38bdf8" font-family="monospace">TT</text>
+                <circle cx="410" cy="130" r="7" fill="#0b1329" stroke="#38bdf8" stroke-width="1.2"/>
+                <text x="410" y="133" text-anchor="middle" font-size="6" fill="#38bdf8" font-family="monospace">LT</text>
+
+                <!-- Válvula de alivio PSV a Antorcha -->
+                <path d="M 385 90 L 385 60 L 420 60" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <polygon points="420,56 428,60 420,64" fill="#ef4444"/>
+                <polygon points="436,56 428,60 436,64" fill="#ef4444"/>
+                <text x="442" y="63" font-size="6.5" fill="#fca5a5" font-family="monospace">PSV (FLARE)</text>
+
+                <!-- Descarga inferior de producto con LCV-103 -->
+                <path d="M 360 280 L 360 350 L 450 350" stroke="#10b981" stroke-width="2.5" fill="none" class="flow-active"/>
+                <g transform="translate(390, 342)">
+                  <polygon points="0,0 12,16 12,0 0,16" fill="#059669" stroke="#6ee7b7" stroke-width="1"/>
+                  <text x="6" y="24" text-anchor="middle" font-size="6" fill="#6ee7b7" font-family="monospace">LCV-103</text>
+                </g>
+                <text x="455" y="347" font-size="6.5" fill="#6ee7b7" font-family="monospace">POLÍMERO A PARQUE</text>
               </g>
+
+              <!-- NODO 3: Camisa de Enfriamiento y Lazo CW TCV-102 -->
               <g id="cstr-node-3" class="cursor-pointer" onclick="selectNode(3)">
-                <rect x="220" y="220" width="390" height="150" rx="8" class="node-idle node-box" />
-                <rect x="520" y="230" width="65" height="18" rx="4" fill="#1e3a8a" />
-                <text x="552" y="242" text-anchor="middle" font-size="9" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 3</text>
-                <path d="M 590 300 L 395 300" stroke="#0ea5e9" stroke-width="2.2" fill="none" class="flow-active"/>
-                <text x="585" y="292" text-anchor="end" font-size="8" fill="#38bdf8" font-family="monospace">CW ENTRADA</text>
+                <rect x="490" y="100" width="210" height="230" rx="8" class="node-idle node-box" />
+                <rect x="495" y="90" width="60" height="16" rx="3" fill="#1e3a8a" />
+                <text x="525" y="101" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 3</text>
+
+                <!-- Camisa envolvente en R-101 (gráficamente conectada) -->
+                <path d="M 280 140 L 275 140 L 275 270 L 285 270" stroke="#0284c7" stroke-width="5" fill="none"/>
+                <path d="M 435 140 L 445 140 L 445 270 L 435 270" stroke="#0284c7" stroke-width="5" fill="none"/>
+                <text x="260" y="210" font-size="6" fill="#38bdf8" font-family="monospace" transform="rotate(-90 260 210)">CAMISA REFRIG.</text>
+
+                <!-- Entrada de agua fría de enfriamiento CW (Cooling Water) -->
+                <path d="M 680 180 L 580 180" stroke="#0ea5e9" stroke-width="3" fill="none" class="flow-active"/>
+                <text x="675" y="172" text-anchor="end" font-size="7" font-weight="bold" fill="#38bdf8" font-family="monospace">CW ENTRADA (20°C)</text>
+
+                <!-- Válvula de control térmico TCV-102 -->
+                <g transform="translate(565, 172)">
+                  <polygon points="0,0 14,16 14,0 0,16" fill="#0284c7" stroke="#7dd3fc" stroke-width="1.2"/>
+                  <circle cx="7" cy="-5" r="5" fill="#1e293b" stroke="#7dd3fc" stroke-width="1"/>
+                  <text x="7" y="24" text-anchor="middle" font-size="6" fill="#7dd3fc" font-family="monospace">TCV-102</text>
+                </g>
+                <path d="M 565 180 L 445 180" stroke="#0ea5e9" stroke-width="3" fill="none" class="flow-active"/>
+
+                <!-- Retorno de agua caliente CWR -->
+                <path d="M 275 250 L 210 250 L 210 320 L 530 320 L 530 270 L 680 270" stroke="#f59e0b" stroke-width="2.5" fill="none" class="flow-active"/>
+                <text x="675" y="263" text-anchor="end" font-size="7" font-weight="bold" fill="#fde047" font-family="monospace">CWR RETORNO (35°C)</text>
+
+                <!-- Explicación de nodo -->
+                <rect x="510" y="205" width="140" height="40" rx="4" fill="#082f49" stroke="#0284c7" stroke-width="1"/>
+                <text x="580" y="222" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#bae6fd" font-family="monospace">DISIPACIÓN TÉRMICA</text>
+                <text x="580" y="234" text-anchor="middle" font-size="5.5" fill="#7dd3fc" font-family="monospace">280 kW / Exotermia Crítica</text>
+              </g>
+
+              <!-- Conexión de alimentación de Nodo 1 a Nodo 2 -->
+              <path d="M 230 120 L 290 120" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+            </svg>
+
+            <!-- PLANTA 2: COLUMNA DE DESTILACIÓN BINARIA (C-201) - 3 NODOS -->
+            <svg id="svg-plant-distillation" viewBox="0 0 720 440" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
+              <pattern id="grid-dist" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0e172e" stroke-width="0.5"/>
+              </pattern>
+              <rect width="720" height="440" fill="url(#grid-dist)"/>
+
+              <!-- NODO 1: Alimentación y Precalentador E-200 -->
+              <g id="dist-node-1" class="cursor-pointer" onclick="selectNode(1)">
+                <rect x="20" y="150" width="180" height="150" rx="8" class="node-idle node-box" />
+                <rect x="25" y="140" width="60" height="16" rx="3" fill="#1e3a8a" />
+                <text x="55" y="151" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 1</text>
+
+                <path d="M 20 220 L 70 220" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+                <text x="25" y="212" font-size="6.5" fill="#94a3b8" font-family="monospace">ALIMENTACIÓN 5000 kg/h</text>
+
+                <!-- Precalentador E-200 -->
+                <circle cx="85" cy="220" r="16" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+                <text x="85" y="223" text-anchor="middle" font-size="7" font-weight="bold" fill="#f8fafc" font-family="monospace">E-200</text>
+                <!-- Vapor a precalentador -->
+                <path d="M 85 175 L 85 204" stroke="#e2e8f0" stroke-width="2" fill="none"/>
+                <text x="88" y="190" font-size="5.5" fill="#e2e8f0" font-family="monospace">VAPOR</text>
+
+                <!-- Lazo a plato de alimentación #14 -->
+                <path d="M 101 220 L 195 220" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+                <circle cx="145" cy="205" r="7" fill="#0b1329" stroke="#38bdf8" stroke-width="1"/>
+                <text x="145" y="208" text-anchor="middle" font-size="5.5" fill="#38bdf8" font-family="monospace">TIC</text>
+                <text x="155" y="235" font-size="6" fill="#93c5fd" font-family="monospace">85°C (Plato 14)</text>
+              </g>
+
+              <!-- NODO 2: Cuerpo de Columna C-201 y Reboiler E-202 -->
+              <g id="dist-node-2" class="cursor-pointer" onclick="selectNode(2)">
+                <rect x="210" y="40" width="220" height="360" rx="8" class="node-idle node-box" />
+                <rect x="215" y="30" width="60" height="16" rx="3" fill="#0f766e" />
+                <text x="245" y="41" text-anchor="middle" font-size="8" fill="#99f6e4" font-family="monospace" font-weight="bold">NODO 2</text>
+
+                <!-- Columna Vertical de 30 platos C-201 -->
+                <rect x="235" y="65" width="80" height="280" rx="14" fill="#1e293b" stroke="#38bdf8" stroke-width="2.2"/>
+                <text x="275" y="90" text-anchor="middle" font-size="10" font-weight="bold" fill="#f8fafc" font-family="monospace">C-201</text>
+                <text x="275" y="101" text-anchor="middle" font-size="6" fill="#94a3b8" font-family="monospace">30 PLATOS</text>
+
+                <!-- Platos perforados interiores -->
+                <line x1="242" y1="125" x2="308" y2="125" stroke="#475569" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <line x1="242" y1="155" x2="308" y2="155" stroke="#475569" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <line x1="242" y1="185" x2="308" y2="185" stroke="#475569" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <line x1="242" y1="215" x2="308" y2="215" stroke="#38bdf8" stroke-width="2"/>
+                <line x1="242" y1="245" x2="308" y2="245" stroke="#475569" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <line x1="242" y1="275" x2="308" y2="275" stroke="#475569" stroke-width="1.5" stroke-dasharray="3 2"/>
+
+                <!-- Transmisor Presión Diferencial PDT-201 -->
+                <circle cx="218" cy="180" r="7" fill="#0b1329" stroke="#f59e0b" stroke-width="1"/>
+                <text x="218" y="183" text-anchor="middle" font-size="5" fill="#fde047" font-family="monospace">PDT</text>
+
+                <!-- Reboiler Termosifón E-202 -->
+                <path d="M 275 345 L 275 380 L 350 380" stroke="#f97316" stroke-width="2" fill="none"/>
+                <rect x="350" y="325" width="60" height="40" rx="4" fill="#1e293b" stroke="#f97316" stroke-width="1.8"/>
+                <text x="380" y="348" text-anchor="middle" font-size="7" font-weight="bold" fill="#fdba74" font-family="monospace">E-202</text>
+                <!-- Vapor a reboiler y retorno -->
+                <path d="M 380 325 L 380 300 L 315 300" stroke="#f97316" stroke-width="2" fill="none" class="flow-active"/>
+                <path d="M 410 345 L 435 345" stroke="#e2e8f0" stroke-width="2" fill="none"/>
+                <text x="430" y="338" font-size="5.5" fill="#e2e8f0" font-family="monospace">VAPOR</text>
+
+                <!-- Fondos a producto pesado -->
+                <path d="M 380 365 L 380 395 L 440 395" stroke="#10b981" stroke-width="2" fill="none" class="flow-active"/>
+                <text x="445" y="398" font-size="6" fill="#6ee7b7" font-family="monospace">FONDOS</text>
+              </g>
+
+              <!-- NODO 3: Domo, Condensador E-201 y Acumulador Reflujo V-201 -->
+              <g id="dist-node-3" class="cursor-pointer" onclick="selectNode(3)">
+                <rect x="445" y="30" width="260" height="340" rx="8" class="node-idle node-box" />
+                <rect x="450" y="20" width="60" height="16" rx="3" fill="#1e3a8a" />
+                <text x="480" y="31" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 3</text>
+
+                <!-- Vapores de Cabeza hacia E-201 -->
+                <path d="M 275 65 L 275 45 L 530 45" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+                
+                <!-- PSV de domo a flare -->
+                <path d="M 330 45 L 330 25 L 370 25" stroke="#ef4444" stroke-width="1.8" fill="none"/>
+                <polygon points="370,22 376,25 370,28" fill="#ef4444"/>
+                <polygon points="382,22 376,25 382,28" fill="#ef4444"/>
+                <text x="388" y="28" font-size="5.5" fill="#fca5a5" font-family="monospace">PSV 2.5 bar</text>
+
+                <!-- Condensador Aéreo/Agua E-201 -->
+                <rect x="530" y="35" width="55" height="35" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+                <text x="557" y="56" text-anchor="middle" font-size="7" font-weight="bold" fill="#7dd3fc" font-family="monospace">E-201</text>
+                <text x="557" y="78" text-anchor="middle" font-size="5.5" fill="#38bdf8" font-family="monospace">CONDENSADOR</text>
+
+                <!-- Acumulador horizontal de reflujo V-201 -->
+                <path d="M 585 52 L 610 52 L 610 110" stroke="#38bdf8" stroke-width="2" fill="none" class="flow-active"/>
+                <rect x="575" y="110" width="70" height="40" rx="10" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+                <text x="610" y="132" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#f8fafc" font-family="monospace">V-201</text>
+                <text x="610" y="142" text-anchor="middle" font-size="5.5" fill="#94a3b8" font-family="monospace">REFLUX DRUM</text>
+
+                <!-- Bomba de Reflujo P-201 -->
+                <path d="M 610 150 L 610 190" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                <circle cx="610" cy="202" r="12" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+                <text x="610" y="224" text-anchor="middle" font-size="6.5" fill="#94a3b8" font-family="monospace">P-201 A/B</text>
+
+                <!-- Línea de Reflujo que regresa a C-201 -->
+                <path d="M 598 202 L 500 202 L 500 85 L 315 85" stroke="#38bdf8" stroke-width="2" fill="none" class="flow-active"/>
+                <text x="495" y="150" font-size="6" fill="#38bdf8" font-family="monospace" transform="rotate(-90 495 150)">REFLUJO L/D</text>
+
+                <!-- Destilado a producto ligero -->
+                <path d="M 622 202 L 685 202 L 685 260" stroke="#10b981" stroke-width="2.2" fill="none" class="flow-active"/>
+                <text x="685" y="275" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#6ee7b7" font-family="monospace">DESTILADO</text>
               </g>
             </svg>
 
-            <svg id="svg-plant-distillation" viewBox="0 0 640 400" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
-              <rect width="640" height="400" fill="#02050e"/>
-              <g id="dist-node-1" class="cursor-pointer" onclick="selectNode(1)"><rect x="20" y="140" width="190" height="110" rx="8" class="node-idle node-box" /><text x="57" y="160" font-size="10" fill="#93c5fd" font-family="monospace">NODO 1</text></g>
-              <g id="dist-node-2" class="cursor-pointer" onclick="selectNode(2)"><rect x="195" y="45" width="115" height="295" rx="8" class="node-idle node-box" /><text x="252" y="90" text-anchor="middle" font-size="10" font-weight="bold" fill="#f8fafc" font-family="monospace">C-201 (NODO 2)</text></g>
-              <g id="dist-node-3" class="cursor-pointer" onclick="selectNode(3)"><rect x="245" y="35" width="370" height="175" rx="8" class="node-idle node-box" /><text x="400" y="100" text-anchor="middle" font-size="8" fill="#38bdf8" font-family="monospace">E-201 (NODO 3)</text></g>
+            <!-- PLANTA 3: SEPARADOR TRIFÁSICO HP V-301 (OIL & GAS) - 3 NODOS -->
+            <svg id="svg-plant-separator" viewBox="0 0 720 440" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
+              <pattern id="grid-sep" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0e172e" stroke-width="0.5"/>
+              </pattern>
+              <rect width="720" height="440" fill="url(#grid-sep)"/>
+
+              <!-- NODO 1: Manifold de Entrada y ESDV-301 -->
+              <g id="sep-node-1" class="cursor-pointer" onclick="selectNode(1)">
+                <rect x="20" y="120" width="180" height="170" rx="8" class="node-idle node-box" />
+                <rect x="25" y="110" width="60" height="16" rx="3" fill="#1e3a8a" />
+                <text x="55" y="121" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 1</text>
+
+                <path d="M 20 200 L 70 200" stroke="#f59e0b" stroke-width="4" fill="none"/>
+                <path d="M 20 200 L 70 200" stroke="#38bdf8" stroke-width="2" fill="none" class="flow-active"/>
+                <text x="25" y="188" font-size="6.5" fill="#fde047" font-family="monospace">CRUDO VIVO + GAS</text>
+                <text x="25" y="197" font-size="5.5" fill="#94a3b8" font-family="monospace">45 bar / 8500 Sm³/d</text>
+
+                <!-- Válvula de corte rápido ESDV-301 -->
+                <g transform="translate(80, 190)">
+                  <polygon points="0,0 16,20 16,0 0,20" fill="#ef4444" stroke="#fca5a5" stroke-width="1.2"/>
+                  <text x="8" y="30" text-anchor="middle" font-size="6" fill="#fca5a5" font-family="monospace">ESDV-301</text>
+                </g>
+
+                <!-- Transmisor PT-301 -->
+                <circle cx="120" cy="170" r="7" fill="#0b1329" stroke="#38bdf8" stroke-width="1"/>
+                <text x="120" y="173" text-anchor="middle" font-size="5.5" fill="#38bdf8" font-family="monospace">PT</text>
+                <path d="M 96 200 L 195 200" stroke="#38bdf8" stroke-width="3" fill="none" class="flow-active"/>
+              </g>
+
+              <!-- NODO 2: Vasija V-301, Vertedero (Weir) y Bota de Agua -->
+              <g id="sep-node-2" class="cursor-pointer" onclick="selectNode(2)">
+                <rect x="210" y="70" width="270" height="300" rx="8" class="node-idle node-box" />
+                <rect x="215" y="60" width="60" height="16" rx="3" fill="#0f766e" />
+                <text x="245" y="71" text-anchor="middle" font-size="8" fill="#99f6e4" font-family="monospace" font-weight="bold">NODO 2</text>
+
+                <!-- Vasija horizontal V-301 -->
+                <rect x="230" y="130" width="220" height="120" rx="25" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5"/>
+                <text x="320" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#f8fafc" font-family="monospace">V-301 (HP 3-PHASE)</text>
+
+                <!-- Vertedero interno (Weir) -->
+                <line x1="360" y1="180" x2="360" y2="248" stroke="#cbd5e1" stroke-width="2.5"/>
+                <text x="360" y="175" text-anchor="middle" font-size="5.5" fill="#94a3b8" font-family="monospace">WEIR</text>
+
+                <!-- Capas de fluidos: Gas (arriba), Crudo (medio), Agua (abajo) -->
+                <rect x="245" y="190" width="115" height="58" fill="#0284c7" opacity="0.35"/>
+                <rect x="360" y="210" width="80" height="38" fill="#10b981" opacity="0.4"/>
+                <text x="290" y="215" text-anchor="middle" font-size="6" fill="#bae6fd" font-family="monospace">CRUDO + AGUA</text>
+                <text x="400" y="230" text-anchor="middle" font-size="6" fill="#6ee7b7" font-family="monospace">CRUDO SECO</text>
+
+                <!-- Bota de decantación de agua inferior -->
+                <rect x="280" y="250" width="35" height="50" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+                <text x="297" y="280" text-anchor="middle" font-size="5" fill="#38bdf8" font-family="monospace">BOTA H2O</text>
+                <!-- Salida de agua de formación -->
+                <path d="M 297 300 L 297 340 L 350 340" stroke="#0ea5e9" stroke-width="2" fill="none" class="flow-active"/>
+                <text x="355" y="343" font-size="6" fill="#38bdf8" font-family="monospace">AGUA AMARGA (LCV-303)</text>
+
+                <!-- Salida de crudo a desgasificador -->
+                <path d="M 420 248 L 420 310 L 470 310" stroke="#10b981" stroke-width="2.5" fill="none" class="flow-active"/>
+                <text x="475" y="313" font-size="6" fill="#6ee7b7" font-family="monospace">CRUDO A TANQUE (LCV-302)</text>
+              </g>
+
+              <!-- NODO 3: Salida de Gas, Demister Pad y Alivio a Flare -->
+              <g id="sep-node-3" class="cursor-pointer" onclick="selectNode(3)">
+                <rect x="490" y="30" width="215" height="230" rx="8" class="node-idle node-box" />
+                <rect x="495" y="20" width="60" height="16" rx="3" fill="#1e3a8a" />
+                <text x="525" y="31" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 3</text>
+
+                <!-- Malla Demister en la salida de gas -->
+                <rect x="400" y="132" width="40" height="10" fill="#475569" stroke="#94a3b8" stroke-dasharray="2 1"/>
+                <text x="420" y="128" text-anchor="middle" font-size="5" fill="#94a3b8" font-family="monospace">DEMISTER</text>
+
+                <!-- Salida superior de gas a compresión -->
+                <path d="M 420 130 L 420 70 L 580 70" stroke="#fbbf24" stroke-width="3" fill="none" class="flow-active"/>
+                <text x="590" y="65" font-size="6.5" font-weight="bold" fill="#fde047" font-family="monospace">A COMPRESIÓN (PCV-301)</text>
+
+                <!-- Doble válvula PSV a antorcha HP -->
+                <path d="M 490 70 L 490 120 L 530 120" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <polygon points="530,116 538,120 530,124" fill="#ef4444"/>
+                <polygon points="546,116 538,120 546,124" fill="#ef4444"/>
+                <polygon points="530,136 538,140 530,144" fill="#ef4444"/>
+                <polygon points="546,136 538,140 546,144" fill="#ef4444"/>
+                <path d="M 490 120 L 490 140 L 530 140" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <path d="M 546 120 L 620 120 L 620 160" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <path d="M 546 140 L 620 140" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <text x="625" y="165" font-size="6.5" fill="#fca5a5" font-family="monospace">HP FLARE (DOBLE PSV)</text>
+              </g>
             </svg>
 
-            <svg id="svg-plant-separator" viewBox="0 0 640 400" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
-              <rect width="640" height="400" fill="#02050e"/>
-              <g id="sep-node-1" class="cursor-pointer" onclick="selectNode(1)"><rect x="20" y="110" width="200" height="95" rx="8" class="node-idle node-box" /><text x="57" y="130" font-size="10" fill="#93c5fd" font-family="monospace">NODO 1</text></g>
-              <g id="sep-node-2" class="cursor-pointer" onclick="selectNode(2)"><rect x="200" y="85" width="260" height="205" rx="8" class="node-idle node-box" /><text x="320" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">V-301 (NODO 2)</text></g>
-              <g id="sep-node-3" class="cursor-pointer" onclick="selectNode(3)"><rect x="340" y="25" width="270" height="100" rx="8" class="node-idle node-box" /><text x="460" y="50" font-size="10" fill="#fef08a" font-family="monospace">GAS A COMPRESIÓN (NODO 3)</text></g>
+            <!-- PLANTA 4: HORNO DE PROCESO / FIRED HEATER (H-401) - 3 NODOS -->
+            <svg id="svg-plant-furnace" viewBox="0 0 720 440" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
+              <pattern id="grid-furnace" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0e172e" stroke-width="0.5"/>
+              </pattern>
+              <rect width="720" height="440" fill="url(#grid-furnace)"/>
+
+              <!-- NODO 1: Serpentines de Tubos de Proceso (Convección + Radiación) -->
+              <g id="furnace-node-1" class="cursor-pointer" onclick="selectNode(1)">
+                <rect x="20" y="50" width="220" height="340" rx="8" class="node-idle node-box" />
+                <rect x="25" y="40" width="70" height="16" rx="3" fill="#1e3a8a" />
+                <text x="60" y="51" text-anchor="middle" font-size="7.5" fill="#93c5fd" font-family="monospace" font-weight="bold">TUBOS H-401</text>
+
+                <!-- Entrada de crudo con FT-401 -->
+                <path d="M 20 120 L 70 120" stroke="#38bdf8" stroke-width="3" fill="none" class="flow-active"/>
+                <circle cx="50" cy="105" r="7" fill="#0b1329" stroke="#38bdf8" stroke-width="1"/>
+                <text x="50" y="108" text-anchor="middle" font-size="5.5" fill="#38bdf8" font-family="monospace">FT</text>
+                <text x="25" y="135" font-size="6" fill="#94a3b8" font-family="monospace">CARGA 45000 kg/h</text>
+
+                <!-- Serpentines dibujados en zig-zag (Convección arriba, Radiación abajo) -->
+                <path d="M 70 120 L 190 120 L 190 140 L 80 140 L 80 160 L 190 160 L 190 220 L 90 220 L 90 250 L 190 250 L 190 280 L 100 280 L 100 320 L 220 320" stroke="#f97316" stroke-width="2.5" fill="none" class="flow-active"/>
+                <text x="140" y="112" font-size="5.5" fill="#fdba74" font-family="monospace">ZONA CONVECCIÓN</text>
+                <text x="140" y="210" font-size="5.5" fill="#f97316" font-family="monospace">ZONA RADIACIÓN</text>
+
+                <!-- Sensores de Piel de Tubo (Skin TT) -->
+                <circle cx="190" cy="250" r="5" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+                <text x="198" y="253" font-size="5.5" fill="#fca5a5" font-family="monospace">SKIN TT</text>
+              </g>
+
+              <!-- NODO 2: Cabina de Fuego Refractaria y Chimenea con Tiro -->
+              <g id="furnace-node-2" class="cursor-pointer" onclick="selectNode(2)">
+                <rect x="250" y="30" width="220" height="370" rx="8" class="node-idle node-box" />
+                <rect x="255" y="20" width="80" height="16" rx="3" fill="#0f766e" />
+                <text x="295" y="31" text-anchor="middle" font-size="7.5" fill="#99f6e4" font-family="monospace" font-weight="bold">CABINA Y CHIMENEA</text>
+
+                <!-- Estructura de cabina refractaria -->
+                <rect x="270" y="110" width="180" height="230" rx="6" fill="#1e293b" stroke="#f97316" stroke-width="2.5"/>
+                <text x="360" y="135" text-anchor="middle" font-size="10" font-weight="bold" fill="#f8fafc" font-family="monospace">H-401 (CABINA)</text>
+
+                <!-- Chimenea superior con Damper -->
+                <rect x="335" y="45" width="50" height="65" fill="#1e293b" stroke="#64748b" stroke-width="1.8"/>
+                <line x1="335" y1="75" x2="385" y2="75" stroke="#f59e0b" stroke-width="2"/>
+                <text x="395" y="78" font-size="6" fill="#fde047" font-family="monospace">DAMPER (TIRO)</text>
+
+                <!-- Llamas de quemadores inferiores -->
+                <g class="flame-burn">
+                  <path d="M 290 320 Q 305 260 320 320 Z" fill="#f59e0b" opacity="0.95"/>
+                  <path d="M 330 320 Q 345 250 360 320 Z" fill="#ef4444" opacity="0.9"/>
+                  <path d="M 370 320 Q 385 255 400 320 Z" fill="#f59e0b" opacity="0.95"/>
+                  <path d="M 410 320 Q 425 265 440 320 Z" fill="#ef4444" opacity="0.9"/>
+                </g>
+                <text x="360" y="335" text-anchor="middle" font-size="7" font-weight="bold" fill="#fde047" font-family="monospace">QUEMADORES (750°C)</text>
+              </g>
+
+              <!-- NODO 3: Sistema BMS NFPA 85 y Tren de Gas Combustible -->
+              <g id="furnace-node-3" class="cursor-pointer" onclick="selectNode(3)">
+                <rect x="480" y="160" width="225" height="230" rx="8" class="node-idle node-box" />
+                <rect x="485" y="150" width="75" height="16" rx="3" fill="#1e3a8a" />
+                <text x="522" y="161" text-anchor="middle" font-size="7.5" fill="#93c5fd" font-family="monospace" font-weight="bold">BMS NFPA 85</text>
+
+                <!-- Línea de alimentación de gas combustible -->
+                <path d="M 690 320 L 510 320 L 510 330 L 450 330" stroke="#f59e0b" stroke-width="2.5" fill="none" class="flow-active"/>
+                <text x="685" y="310" text-anchor="end" font-size="6.5" font-weight="bold" fill="#fde047" font-family="monospace">FUEL GAS (FG)</text>
+
+                <!-- Válvulas Doble Bloqueo y Venteo (SSOV-1, SSOV-2 y Vent) -->
+                <g transform="translate(630, 312)">
+                  <polygon points="0,0 12,16 12,0 0,16" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+                  <text x="6" y="24" text-anchor="middle" font-size="5" fill="#fca5a5" font-family="monospace">SSOV-1</text>
+                </g>
+                <g transform="translate(560, 312)">
+                  <polygon points="0,0 12,16 12,0 0,16" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+                  <text x="6" y="24" text-anchor="middle" font-size="5" fill="#fca5a5" font-family="monospace">SSOV-2</text>
+                </g>
+                <!-- Venteo intermedio -->
+                <path d="M 605 320 L 605 270" stroke="#ef4444" stroke-width="1.5" fill="none"/>
+                <g transform="translate(600, 260)">
+                  <polygon points="0,0 10,12 10,0 0,12" fill="#0284c7" stroke="#7dd3fc" stroke-width="1"/>
+                  <text x="5" y="-3" text-anchor="middle" font-size="5" fill="#7dd3fc" font-family="monospace">VENT</text>
+                </g>
+
+                <rect x="520" y="190" width="150" height="45" rx="5" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2"/>
+                <text x="595" y="208" text-anchor="middle" font-size="7" font-weight="bold" fill="#fde047" font-family="monospace">BURNER MANAGEMENT</text>
+                <text x="595" y="222" text-anchor="middle" font-size="6" fill="#94a3b8" font-family="monospace">SIL-3 Flame Detectors</text>
+              </g>
             </svg>
 
-            <svg id="svg-plant-furnace" viewBox="0 0 640 400" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
-              <rect width="640" height="400" fill="#02050e"/>
-              <g id="furnace-node-1" class="cursor-pointer" onclick="selectNode(1)"><rect x="25" y="50" width="250" height="280" rx="8" class="node-idle node-box" /><text x="62" y="70" font-size="10" fill="#93c5fd" font-family="monospace">TUBOS H-401 (NODO 1)</text></g>
-              <g id="furnace-node-2" class="cursor-pointer" onclick="selectNode(2)"><rect x="235" y="25" width="180" height="320" rx="8" class="node-idle node-box" /><text x="320" y="155" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">CABINA REFRACTARIA (NODO 2)</text></g>
-              <g id="furnace-node-3" class="cursor-pointer" onclick="selectNode(3)"><rect x="240" y="270" width="370" height="110" rx="8" class="node-idle node-box" /><text x="360" y="320" font-size="10" fill="#fde047" font-family="monospace">BMS NFPA 85 (NODO 3)</text></g>
+            <!-- PLANTA 5: BALA PRESURIZADA CRIOGÉNICA GLP (TK-501) - 3 NODOS -->
+            <svg id="svg-plant-cryo" viewBox="0 0 720 440" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
+              <pattern id="grid-cryo" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0e172e" stroke-width="0.5"/>
+              </pattern>
+              <rect width="720" height="440" fill="url(#grid-cryo)"/>
+
+              <!-- NODO 1: Línea de Carga y ESDV-501 Criogénica -->
+              <g id="cryo-node-1" class="cursor-pointer" onclick="selectNode(1)">
+                <rect x="20" y="120" width="180" height="220" rx="8" class="node-idle node-box" />
+                <rect x="25" y="110" width="70" height="16" rx="3" fill="#1e3a8a" />
+                <text x="60" y="121" text-anchor="middle" font-size="7.5" fill="#93c5fd" font-family="monospace" font-weight="bold">LÍNEA CARGA</text>
+
+                <!-- Tubería Criogénica de Propano (-25°C / 14.5 bar) -->
+                <path d="M 20 220 L 80 220" stroke="#0ea5e9" stroke-width="4" fill="none"/>
+                <path d="M 20 220 L 80 220" stroke="#38bdf8" stroke-width="2" fill="none" class="flow-active"/>
+                <text x="25" y="205" font-size="6.5" font-weight="bold" fill="#7dd3fc" font-family="monospace">GLP PROPANO</text>
+                <text x="25" y="214" font-size="5.5" fill="#94a3b8" font-family="monospace">-25°C / 32000 kg/h</text>
+
+                <!-- ESDV-501 con fusible térmico -->
+                <g transform="translate(90, 210)">
+                  <polygon points="0,0 16,20 16,0 0,20" fill="#ef4444" stroke="#fca5a5" stroke-width="1.2"/>
+                  <circle cx="8" cy="-5" r="4" fill="#f59e0b" stroke="#fde047" stroke-width="1"/>
+                  <text x="8" y="30" text-anchor="middle" font-size="6" fill="#fca5a5" font-family="monospace">ESDV-501</text>
+                </g>
+                <path d="M 106 220 L 220 220" stroke="#0ea5e9" stroke-width="3" fill="none" class="flow-active"/>
+              </g>
+
+              <!-- NODO 2: Bala Presurizada TK-501 y Anillo Deluge NFPA 15 -->
+              <g id="cryo-node-2" class="cursor-pointer" onclick="selectNode(2)">
+                <rect x="210" y="60" width="270" height="330" rx="8" class="node-idle node-box" />
+                <rect x="215" y="50" width="80" height="16" rx="3" fill="#0f766e" />
+                <text x="255" y="61" text-anchor="middle" font-size="7.5" fill="#99f6e4" font-family="monospace" font-weight="bold">BALA TK-501</text>
+
+                <!-- Vasija horizontal TK-501 con soportes -->
+                <rect x="240" y="140" width="210" height="120" rx="35" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5"/>
+                <text x="345" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">TK-501 (GLP)</text>
+                <text x="345" y="182" text-anchor="middle" font-size="6.5" fill="#94a3b8" font-family="monospace">250 m³ / 14.5 bar / -25°C</text>
+
+                <!-- Nivel de GLP Líquido -->
+                <rect x="250" y="190" width="190" height="65" rx="10" fill="#0284c7" opacity="0.4"/>
+                <text x="345" y="215" text-anchor="middle" font-size="7" font-weight="bold" fill="#7dd3fc" font-family="monospace">NIVEL: 72%</text>
+
+                <!-- Soportes ignifugados de hormigón -->
+                <rect x="270" y="260" width="25" height="30" fill="#475569" stroke="#64748b"/>
+                <rect x="395" y="260" width="25" height="30" fill="#475569" stroke="#64748b"/>
+
+                <!-- Cubeto estanco exterior -->
+                <rect x="230" y="280" width="230" height="40" fill="none" stroke="#64748b" stroke-width="1.8" stroke-dasharray="4 2"/>
+                <text x="235" y="315" font-size="5.5" fill="#64748b" font-family="monospace">CUBETO DE RETENCIÓN</text>
+
+                <!-- Anillo de Rociadores Deluge NFPA 15 -->
+                <path d="M 235 125 L 455 125" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 3" fill="none"/>
+                <text x="345" y="120" text-anchor="middle" font-size="6" font-weight="bold" fill="#38bdf8" font-family="monospace">ROCIADORES DELUGE (10.2 L/min/m²)</text>
+              </g>
+
+              <!-- NODO 3: Venteo BOG a Flare y Blanketing con N2 -->
+              <g id="cryo-node-3" class="cursor-pointer" onclick="selectNode(3)">
+                <rect x="490" y="40" width="215" height="240" rx="8" class="node-idle node-box" />
+                <rect x="495" y="30" width="70" height="16" rx="3" fill="#1e3a8a" />
+                <text x="530" y="41" text-anchor="middle" font-size="7.5" fill="#93c5fd" font-family="monospace" font-weight="bold">VENTEO & N2</text>
+
+                <!-- Inyección de Nitrógeno para evitar vacío -->
+                <path d="M 500 80 L 400 80 L 400 140" stroke="#10b981" stroke-width="2" fill="none"/>
+                <text x="495" y="74" text-anchor="end" font-size="6" fill="#6ee7b7" font-family="monospace">N2 BLANKETING</text>
+
+                <!-- Válvula combinada de presión/vacío PVRV -->
+                <rect x="480" y="100" width="25" height="18" rx="3" fill="#334155" stroke="#f59e0b" stroke-width="1.2"/>
+                <text x="492" y="112" text-anchor="middle" font-size="6" fill="#fde047" font-family="monospace">PVRV</text>
+
+                <!-- Doble PSV a antorcha criogénica -->
+                <path d="M 345 140 L 345 95 L 560 95" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <polygon points="560,91 568,95 560,99" fill="#ef4444"/>
+                <polygon points="576,91 568,95 576,99" fill="#ef4444"/>
+                <polygon points="560,111 568,115 560,119" fill="#ef4444"/>
+                <polygon points="576,111 568,115 576,119" fill="#ef4444"/>
+                <path d="M 540 95 L 540 115 L 560 115" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <path d="M 576 95 L 640 95 L 640 150" stroke="#ef4444" stroke-width="2" fill="none"/>
+                <text x="645" y="155" font-size="6.5" fill="#fca5a5" font-family="monospace">CRYO FLARE (18 bar)</text>
+              </g>
             </svg>
 
-            <svg id="svg-plant-cryo" viewBox="0 0 640 400" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
-              <rect width="640" height="400" fill="#02050e"/>
-              <g id="cryo-node-1" class="cursor-pointer" onclick="selectNode(1)"><rect x="20" y="70" width="210" height="110" rx="8" class="node-idle node-box" /><text x="57" y="90" font-size="10" fill="#93c5fd" font-family="monospace">LÍNEA CARGA (NODO 1)</text></g>
-              <g id="cryo-node-2" class="cursor-pointer" onclick="selectNode(2)"><rect x="210" y="55" width="220" height="270" rx="8" class="node-idle node-box" /><text x="320" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">BALA TK-501 (NODO 2)</text></g>
-              <g id="cryo-node-3" class="cursor-pointer" onclick="selectNode(3)"><rect x="280" y="20" width="340" height="115" rx="8" class="node-idle node-box" /><text x="400" y="60" font-size="10" fill="#fbbf24" font-family="monospace">VENTEO & N2 (NODO 3)</text></g>
+            <!-- PLANTA 7: CARGA CISTERNA TÓXICA/INFLAMABLE, DEPÓSITO TK-701 Y ENVÍO A PROCESO -->
+            <svg id="svg-plant-toxic" viewBox="0 0 720 440" class="w-full h-full select-none hidden" xmlns="http://www.w3.org/2000/svg">
+              <pattern id="grid-toxic" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0e172e" stroke-width="0.5"/>
+              </pattern>
+              <rect width="720" height="440" fill="url(#grid-toxic)"/>
+
+              <!-- NODO 1: Isla de Descarga y Manguera Cisterna -->
+              <g id="toxic-node-1" class="cursor-pointer" onclick="selectNode(1)">
+                <rect x="15" y="140" width="185" height="270" rx="8" class="node-idle node-box"/>
+                <rect x="20" y="130" width="60" height="16" rx="3" fill="#1e3a8a"/>
+                <text x="50" y="141" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 1</text>
+
+                <!-- Camión Cisterna -->
+                <rect x="25" y="180" width="90" height="55" rx="14" fill="#1e293b" stroke="#f59e0b" stroke-width="1.8"/>
+                <rect x="100" y="195" width="22" height="40" rx="4" fill="#334155" stroke="#f59e0b" stroke-width="1.5"/>
+                <circle cx="45" cy="240" r="8" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+                <circle cx="90" cy="240" r="8" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+                <circle cx="112" cy="240" r="7" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+                <text x="70" y="212" text-anchor="middle" font-size="7" font-weight="bold" fill="#fde047" font-family="monospace">CISTERNA</text>
+                <text x="70" y="222" text-anchor="middle" font-size="5.5" fill="#fca5a5" font-family="monospace">TÓXICO+INFLAM.</text>
+
+                <!-- Cable de Puesta a Tierra Interbloqueado -->
+                <path d="M 50 180 L 50 160 L 95 160" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
+                <circle cx="95" cy="160" r="3" fill="#10b981"/>
+                <text x="102" y="163" font-size="5.5" fill="#6ee7b7" font-family="monospace">TIERRA ESD</text>
+
+                <!-- Manguera con Acople Dry-Break y Breakaway -->
+                <path d="M 115 220 Q 140 220 145 250 T 155 290" stroke="#f97316" stroke-width="3" fill="none"/>
+                <rect x="148" y="280" width="12" height="10" rx="2" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+                <text x="154" y="302" text-anchor="middle" font-size="5" fill="#fca5a5" font-family="monospace">DRY-BREAK</text>
+
+                <!-- ESDV-701 Válvula de corte de carga -->
+                <g transform="translate(148, 320)">
+                  <polygon points="0,0 12,14 12,0 0,14" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+                  <text x="6" y="22" text-anchor="middle" font-size="5" fill="#fca5a5" font-family="monospace">ESDV-701</text>
+                </g>
+                <path d="M 154 334 L 154 370 L 195 370" stroke="#f97316" stroke-width="2.5" fill="none" class="flow-active"/>
+              </g>
+
+              <!-- NODO 2: Depósito Vertical TK-701 y Cubeto -->
+              <g id="toxic-node-2" class="cursor-pointer" onclick="selectNode(2)">
+                <rect x="210" y="110" width="220" height="310" rx="8" class="node-idle node-box"/>
+                <rect x="215" y="100" width="60" height="16" rx="3" fill="#0f766e"/>
+                <text x="245" y="111" text-anchor="middle" font-size="8" fill="#99f6e4" font-family="monospace" font-weight="bold">NODO 2</text>
+
+                <!-- Cubeto de Retención Estanco al 110% -->
+                <rect x="225" y="290" width="190" height="110" rx="3" fill="#0a1226" stroke="#475569" stroke-width="2" stroke-dasharray="4 2"/>
+                <text x="230" y="392" font-size="6" fill="#64748b" font-family="monospace">CUBETO 110%</text>
+
+                <!-- Depósito Vertical TK-701 -->
+                <rect x="260" y="140" width="120" height="210" rx="14" fill="#1e293b" stroke="#38bdf8" stroke-width="2.2"/>
+                <text x="320" y="165" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">TK-701</text>
+                <text x="320" y="176" text-anchor="middle" font-size="6" fill="#94a3b8" font-family="monospace">DEPÓSITO 120 m³</text>
+
+                <!-- Nivel de Líquido -->
+                <rect x="265" y="240" width="110" height="100" rx="4" fill="#0284c7" opacity="0.35"/>
+                <line x1="265" y1="240" x2="375" y2="240" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <text x="320" y="260" text-anchor="middle" font-size="7" font-weight="bold" fill="#38bdf8" font-family="monospace">NIVEL: 65%</text>
+
+                <!-- Sensores de Nivel Radar + LSHH SIL-2 -->
+                <circle cx="360" cy="148" r="5" fill="#082f49" stroke="#38bdf8"/>
+                <text x="370" y="151" font-size="6" fill="#38bdf8" font-family="monospace">LT/LSHH</text>
+
+                <!-- Línea de Carga que entra por arriba para evitar sifón -->
+                <path d="M 195 370 L 245 370 L 245 130 L 300 130 L 300 145" stroke="#f97316" stroke-width="2.5" fill="none" class="flow-active"/>
+              </g>
+
+              <!-- NODO 3: Inertización N2 y Venteo a Scrubber -->
+              <g id="toxic-node-3" class="cursor-pointer" onclick="selectNode(3)">
+                <rect x="230" y="15" width="310" height="90" rx="8" class="node-idle node-box"/>
+                <rect x="235" y="5" width="60" height="16" rx="3" fill="#1e3a8a"/>
+                <text x="265" y="16" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 3</text>
+
+                <!-- Inyección de N2 de Blanketing -->
+                <path d="M 240 55 L 285 55 L 285 140" stroke="#10b981" stroke-width="2" fill="none"/>
+                <text x="242" y="48" font-size="6" fill="#6ee7b7" font-family="monospace">N2 BLANKET</text>
+                <circle cx="270" cy="55" r="4" fill="#064e3b" stroke="#10b981"/>
+
+                <!-- Válvula PVRV + Arrestallamas -->
+                <rect x="330" y="45" width="22" height="14" rx="2" fill="#334155" stroke="#f59e0b" stroke-width="1.2"/>
+                <text x="341" y="55" text-anchor="middle" font-size="5" fill="#fde047" font-family="monospace">PVRV</text>
+                <path d="M 330 140 L 330 59" stroke="#94a3b8" stroke-width="2" fill="none"/>
+
+                <!-- Columna Scrubber Lavador de Gases Tóxicos -->
+                <rect x="440" y="30" width="35" height="65" rx="8" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5"/>
+                <text x="457" y="60" text-anchor="middle" font-size="6" font-weight="bold" fill="#fda4af" font-family="monospace">SCRUBBER</text>
+                <path d="M 352 52 L 440 52" stroke="#f43f5e" stroke-width="2" fill="none" class="flow-active"/>
+                <path d="M 457 30 L 457 20" stroke="#f43f5e" stroke-width="2" fill="none"/>
+                <text x="465" y="24" font-size="5.5" fill="#fda4af" font-family="monospace">VENTEO SEGURO</text>
+              </g>
+
+              <!-- NODO 4: Bombas P-701, Medidor Coriolis y Envío a Proceso -->
+              <g id="toxic-node-4" class="cursor-pointer" onclick="selectNode(4)">
+                <rect x="445" y="125" width="260" height="295" rx="8" class="node-idle node-box"/>
+                <rect x="450" y="115" width="60" height="16" rx="3" fill="#1e3a8a"/>
+                <text x="480" y="126" text-anchor="middle" font-size="8" fill="#93c5fd" font-family="monospace" font-weight="bold">NODO 4</text>
+
+                <!-- Succión de Fondo TK-701 -->
+                <path d="M 320 350 L 320 375 L 480 375" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+                <g transform="translate(425, 368)">
+                  <polygon points="0,0 10,12 10,0 0,12" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+                  <text x="5" y="20" text-anchor="middle" font-size="5" fill="#fca5a5" font-family="monospace">ESDV-702</text>
+                </g>
+
+                <!-- Bombas Centrífugas Herméticas P-701 A/B -->
+                <circle cx="500" cy="375" r="14" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+                <text x="500" y="400" text-anchor="middle" font-size="7" fill="#94a3b8" font-family="monospace">P-701 A</text>
+                <circle cx="500" cy="320" r="14" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+                <text x="500" y="345" text-anchor="middle" font-size="7" fill="#94a3b8" font-family="monospace">P-701 B (STBY)</text>
+
+                <!-- Línea de Recirculación de Flujo Mínimo con Orificio -->
+                <path d="M 514 375 L 560 375 L 560 270 L 375 270" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3 2" fill="none"/>
+                <rect x="555" y="310" width="10" height="10" rx="1" fill="#f59e0b"/>
+                <text x="575" y="318" font-size="5.5" fill="#fde047" font-family="monospace">MIN FLOW (RO)</text>
+
+                <!-- Medidor Coriolis FT-701 y Envío a Proceso -->
+                <path d="M 514 375 L 610 375" stroke="#38bdf8" stroke-width="2.5" fill="none" class="flow-active"/>
+                <circle cx="610" cy="375" r="9" fill="#082f49" stroke="#38bdf8" stroke-width="1.5"/>
+                <text x="610" y="378" text-anchor="middle" font-size="6" font-weight="bold" fill="#38bdf8" font-family="monospace">FT-701</text>
+                <path d="M 619 375 L 690 375" stroke="#10b981" stroke-width="3" fill="none" class="flow-active"/>
+                <text x="690" y="367" text-anchor="end" font-size="7" font-weight="bold" fill="#6ee7b7" font-family="monospace">A PROCESO (REACCIÓN)</text>
+              </g>
             </svg>
 
-          </div>
-
-          <!-- Pie Técnico del Nodo Seleccionado -->
-          <div class="mt-2.5 p-3 bg-slate-950/80 rounded-xl border border-dcs-border flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex items-center gap-2">
-              <span id="active-node-tag" class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 font-mono font-bold border border-cyan-800">NODO 1</span>
-              <span id="active-node-title" class="text-slate-100 font-semibold">Manifold y Bombeo HP</span>
-            </div>
-            <div id="active-node-design" class="text-slate-400 font-mono text-[11px] truncate">
-              Condición: 65000 kg/h @ 120°C / 60 bar
-            </div>
           </div>
         </div>
 
@@ -514,6 +1058,16 @@
                 <!-- Llenado dinámicamente -->
               </select>
             </div>
+          </div>
+
+          <!-- Ficha Técnica del Nodo Seleccionado -->
+          <div class="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1">
+            <div class="flex items-center justify-between">
+              <span id="active-node-tag" class="text-xs font-mono font-bold text-cyan-400">NODO 1</span>
+              <span class="text-[10px] text-slate-500 font-mono">Intención & Diseño</span>
+            </div>
+            <div id="active-node-title" class="text-xs font-bold text-slate-200">Isla de Descarga y Manguera Cisterna</div>
+            <p id="active-node-design" class="text-[11px] text-slate-400 leading-snug">Manguera 3" PTFE/Inox | P_diseño: 10 bar | Válvula breakaway y ESDV-701</p>
           </div>
 
           <!-- Selección de Palabra Guía y Parámetro (Metodología Canónica IEC 61882) -->
@@ -784,8 +1338,9 @@
           <div>
             <label class="block text-slate-400 font-mono text-[11px] mb-1">Filtrar por Planta:</label>
             <select id="filter-plant" onchange="renderWorksheet()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
-              <option value="all">Todas las Plantas (6)</option>
-              <option value="hds" selected>⭐ 6. HDS Catalítica</option>
+              <option value="all">Todas las Plantas (7)</option>
+              <option value="toxic" selected>⭐ 7. Cisterna Tóxica y TK-701</option>
+              <option value="hds">6. HDS Catalítica</option>
               <option value="cstr">1. CSTR Exotérmico</option>
               <option value="distillation">2. Columna Destilación</option>
               <option value="separator">3. Separador HP</option>
@@ -1332,7 +1887,8 @@
         <div>
           <label class="block text-slate-300 font-semibold mb-1">Planta:</label>
           <select id="modal-plant" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200">
-            <option value="hds">⭐ 6. HDS Catalítica</option>
+            <option value="toxic">⭐ 7. Cisterna Tóxica y TK-701</option>
+            <option value="hds">6. HDS Catalítica</option>
             <option value="cstr">1. CSTR Exotérmico</option>
             <option value="distillation">2. Columna Destilación</option>
             <option value="separator">3. Separador HP</option>
@@ -1471,6 +2027,147 @@
 
     // BASE DE DATOS DE PLANTAS CON TALLER DE NODO Y TRAMPAS PEDAGÓGICAS PARA CADA NODO
     const plantDatabase = {
+      toxic: {
+        name: "Cisterna Tóxica y TK-701",
+        title: "Carga de Sustancia Tóxica e Inflamable, Depósito TK-701 y Envío a Proceso (4 Nodos)",
+        nominal: { flow: 12000, temp: 22.0, press: 1.05, level: 65.0, uF: 'kg/h', uT: '°C', uP: 'bar', uL: '%' },
+        faults: [
+          { val: 'none', label: 'Operación Nominal Estable' },
+          { val: 'tox_driveaway', label: 'Desplazamiento Accidental Camión Cisterna' },
+          { val: 'tox_overfill', label: 'Sobrellenado Crítico de Depósito TK-701' },
+          { val: 'tox_n2_loss', label: 'Pérdida de Inertización con N2 (Entrada Aire)' }
+        ],
+        nodes: [
+          {
+            id: 1,
+            tag: "NODO 1",
+            title: "Isla de Descarga y Manguera Cisterna",
+            intent: "Transferir 12000 kg/h de sustancia tóxica e inflamable a 3 bar desde cisterna con acople Dry-Break y puesta a tierra.",
+            design: "Manguera 3\" PTFE/Inox | P_diseño: 10 bar | Válvula breakaway y ESDV-701",
+            cases: [
+              {
+                guideWord: "MÁS",
+                param: "FLUJO",
+                devTag: "NODO 1: FUGA MASIVA POR DESCONEXIÓN CISTERNA",
+                narrative: "El camión cisterna arranca o se desplaza accidentalmente (drive-away) con la manguera conectada a plena transferencia a 3 bar.",
+                causes: [
+                  { text: "Desplazamiento accidental del camión cisterna por fallo de frenos o ausencia de calzos de inmovilización", ok: true },
+                  { text: "Fallo del sello mecánico de la bomba de fondos P-701 en el Nodo 4", ok: false, trap: "FALACIA DE UBICACIÓN: La bomba P-701 está ubicada aguas abajo (Nodo 4); no provoca el arranque ni tensión en la manguera del camión cisterna." },
+                  { text: "Cavitación súbita en la bomba de alimentación del reactor CSTR", ok: false, trap: "DISTRACTOR: Corresponde a otra planta." }
+                ],
+                consequences: [
+                  { text: "Desgarro de manguera, liberación masiva presurizada de producto tóxico e inflamable, nube tóxica letal y riesgo de explosión UVCE", ok: true },
+                  { text: "Congelación espontánea del asfalto de la calzada", ok: false, trap: "FALACIA FÍSICA: El producto se descarga a 22°C ambiente, no tiene efecto criogénico." },
+                  { text: "Autoignición espontánea del nitrógeno de blanketing", ok: false, trap: "FALACIA QUÍMICA: El nitrógeno N2 es un gas inerte incombustible." }
+                ],
+                idealS: 5, idealL: 3,
+                safeguards: [
+                  { text: "Acople seco Dry-Break con punto frangible (breakaway), cable de puesta a tierra interbloqueado con semáforo y pulsador ESD local", ok: true },
+                  { text: "Cono plástico de tráfico colocado junto a la rueda trasera", ok: false, trap: "FALSA SALVAGUARDA: Un cono plástico no es una IPL ni detiene físicamente el camión ni corta la fuga." },
+                  { text: "Manómetro de aguja en la toma de manguera", ok: false, trap: "FALSA SALVAGUARDA (IEC 61511): Un manómetro no tiene capacidad de aislamiento rápido." }
+                ],
+                feedback: "Las islas de transferencia de sustancias tóxicas e inflamables requieren sistemas de enclavamiento físico (semáforos, calzos con microinterruptor) y acoples rompibles de cierre hermético automático."
+              }
+            ]
+          },
+          {
+            id: 2,
+            tag: "NODO 2",
+            title: "Depósito Vertical TK-701 y Cubeto",
+            intent: "Almacenar 120 m³ de líquido tóxico e inflamable a presión atmosférica dentro de cubeto estanco al 110%.",
+            design: "Tanque vertical acero inoxidable 316L | P_diseño: +50 / -10 mbar | Detección de nivel radar",
+            cases: [
+              {
+                guideWord: "MÁS",
+                param: "NIVEL",
+                devTag: "NODO 2: SOBRELLENADO DEL DEPÓSITO TK-701",
+                narrative: "Durante la descarga de la cisterna, el nivel supera el 95% sin que el operador detenga el bombeo por error en la medición de nivel.",
+                causes: [
+                  { text: "Fallo no seguro de transmisor de nivel LT-701 trabado en lectura baja combinado con error en verificación de volumen disponible", ok: true },
+                  { text: "Fallo de disparo en los quemadores del horno H-401", ok: false, trap: "DISTRACTOR: El horno H-401 pertenece a otra planta de la refinería." },
+                  { text: "Pérdida de refrigeración en el condensador de la columna", ok: false, trap: "DISTRACTOR: Corresponde a la columna de destilación." }
+                ],
+                consequences: [
+                  { text: "Rebose de líquido tóxico e inflamable por venteos, inundación del cubeto de retención, emisión de vapores letales y riesgo de sobrepresión en techo", ok: true },
+                  { text: "Desaparición instantánea de la masa de líquido por evaporación cuántica", ok: false, trap: "FALACIA PSEUDOCIENTÍFICA: La masa se conserva; el exceso de líquido rebosa físicamente al cubeto." },
+                  { text: "Implosión por vacío del depósito", ok: false, trap: "FALACIA DE SIGNO: El sobrellenado genera aumento de presión y rebose, nunca vacío." }
+                ],
+                idealS: 5, idealL: 3,
+                safeguards: [
+                  { text: "Sensor de nivel alto-alto independiente (LSHH) con tecnología diversa (horquilla vibrante) que ordene el cierre automático de ESDV-701 SIL-2", ok: true },
+                  { text: "Ronda visual del operador cada 8 horas", ok: false, trap: "FALSA SALVAGUARDA: La descarga de una cisterna dura entre 40 y 60 minutos; una ronda cada 8 horas no previene el desbordamiento." },
+                  { text: "Tubo de nivel de vidrio exterior sin válvulas de aislamiento", ok: false, trap: "FALSA SALVAGUARDA PELIGROSA: Un tubo de vidrio es susceptible de rotura mecánica originando un nuevo derrame de producto tóxico." }
+                ],
+                feedback: "El sobrellenado de tanques con sustancias inflamables y tóxicas (caso Buncefield) requiere capas de protección independientes certificadas SIL-2/3 con corte automático de la línea de llenado."
+              }
+            ]
+          },
+          {
+            id: 3,
+            tag: "NODO 3",
+            title: "Inertización con N2 y Venteo a Scrubber",
+            intent: "Mantener atmósfera inerte libre de oxígeno con N2 a +15 mbar y tratar vapores tóxicos en columna lavadora scrubber.",
+            design: "Inertización continua N2 | PVRV tarada a +30 / -5 mbar | Scrubber cáustico alcalino",
+            cases: [
+              {
+                guideWord: "MENOS",
+                param: "PRESIÓN",
+                devTag: "NODO 3: PÉRDIDA DE INERTIZACIÓN / ENTRADA DE AIRE",
+                narrative: "Falla el suministro de nitrógeno mientras las bombas P-701 descargan producto a proceso a máximo caudal.",
+                causes: [
+                  { text: "Corte de suministro de nitrógeno N2 de blanketing o bloqueo en posición cerrada de la reguladora PCV durante el bombeo de vaciado", ok: true },
+                  { text: "Disparo por alta temperatura en el lecho catalítico del reactor R-601", ok: false, trap: "DISTRACTOR: R-601 pertenece a la planta de HDS." },
+                  { text: "Fallo del agitador en el reactor CSTR", ok: false, trap: "DISTRACTOR: No tiene vinculación con el circuito de N2 del TK-701." }
+                ],
+                consequences: [
+                  { text: "Aspiración de aire atmosférico al interior del tanque, formación de atmósfera inflamable en el espacio de vapor y riesgo de explosión interna", ok: true },
+                  { text: "Polimerización en masa del aire circundante", ok: false, trap: "FALACIA QUÍMICA: El aire atmosférico no polimeriza." },
+                  { text: "Vaporización inmediata del manto de acero inoxidable", ok: false, trap: "FALACIA TÉRMICA: La falta de N2 a temperatura ambiente no funde ni vaporiza acero." }
+                ],
+                idealS: 5, idealL: 2,
+                safeguards: [
+                  { text: "Transmisor independiente de presión PSL con enclavamiento SIS de corte automático de bombas P-701 + arrestallamas certificado ATEX en venteos", ok: true },
+                  { text: "Pintar la tubería de nitrógeno de color verde brillante", ok: false, trap: "FALSA SALVAGUARDA: La identificación de tuberías es informativa; no impide la entrada de aire ante pérdida de presión." },
+                  { text: "Válvula de bola manual de purga dejada entreabierta", ok: false, trap: "FALSA SALVAGUARDA: Una apertura manual no compensa fluctuaciones y facilita la entrada de aire húmedo." }
+                ],
+                feedback: "El venteo de tanques con sustancias inflamables requiere inertización activa por gas inerte (blanketing) para garantizar que la concentración de O2 permanezca muy por debajo del LOC (Concentración Límite de Oxígeno)."
+              }
+            ]
+          },
+          {
+            id: 4,
+            tag: "NODO 4",
+            title: "Bombas P-701 y Envío a Proceso",
+            intent: "Impulsar 12000 kg/h de fluido tóxico a 6 bar hacia proceso con bombas de accionamiento magnético y lazo Coriolis FT-701.",
+            design: "2 Bombas P-701 A/B (1 operando + 1 reserva) | Tubería 2\" ANSI 300 SS316L | Retorno de flujo mínimo",
+            cases: [
+              {
+                guideWord: "NO",
+                param: "FLUJO",
+                devTag: "NODO 4: OPERACIÓN EN DESCARGA CERRADA (DEADHEADING)",
+                narrative: "Se cierra la válvula hacia proceso mientras la bomba P-701 A continúa en marcha con la línea de recirculación mínima bloqueada.",
+                causes: [
+                  { text: "Cierre accidental de la válvula hacia proceso con bypass de recirculación mínima bloqueado o colmatado", ok: true },
+                  { text: "Rotura de la manguera de descarga del camión cisterna en el Nodo 1", ok: false, trap: "FALACIA DE UBICACIÓN: La rotura en el Nodo 1 afecta la entrada al tanque; no bloquea la descarga de la bomba hacia proceso." },
+                  { text: "Fallo de llama en el horno H-401", ok: false, trap: "DISTRACTOR: Pertenece a otra planta." }
+                ],
+                consequences: [
+                  { text: "Sobrecalentamiento rápido del fluido tóxico confinado en la voluta, vaporización, fallo del acoplamiento magnético o sellos y fuga presurizada de tóxico", ok: true },
+                  { text: "Descenso de la temperatura del líquido a -50°C", ok: false, trap: "FALACIA FÍSICA: La fricción hidráulica en descarga cerrada calienta el líquido, no lo enfría." },
+                  { text: "Desintegración radiactiva de la voluta de la bomba", ok: false, trap: "FALACIA PSEUDOCIENTÍFICA: Las bombas no generan desintegración nuclear." }
+                ],
+                idealS: 4, idealL: 3,
+                safeguards: [
+                  { text: "Interruptor de caudal mínimo (FAL) con enclavamiento de disparo automático del motor en < 5 s + línea fija de flujo mínimo sin válvulas de bloqueo", ok: true },
+                  { text: "Termómetro bimetálico local montado en la carcasa", ok: false, trap: "FALSA SALVAGUARDA: La lectura visual local no detiene el motor de la bomba a tiempo ante sobrecalentamiento rápido." },
+                  { text: "Colocar un extintor de 6 kg junto a la bancada", ok: false, trap: "FALSA SALVAGUARDA: Un extintor es un elemento de respuesta ante conatos de incendio; no evita el deadheading ni la fuga de producto tóxico." }
+                ],
+                feedback: "Las bombas que manejan sustancias químicas peligrosas deben disponer de protección contra marcha en seco y recirculación de caudal mínimo permanente para evitar la ebullición del líquido en la voluta."
+              }
+            ]
+          }
+        ]
+      },
       hds: {
         name: "Unidad HDS",
         title: "Planta de Hidrodesulfuración Catalítica de Gasóleo (6 Nodos)",
@@ -2018,6 +2715,42 @@
 
     const benchmarkHdsDatabase = [
       {
+        id: "TOX-001", plant: "toxic", plantName: "Cisterna Tóxica y TK-701", node: "Nodo 1 (Isla Descarga Cisterna)",
+        gw: "MÁS", param: "FLUJO / FUGA", dev: "FUGA MASIVA POR DESPLAZAMIENTO CISTERNA",
+        causes: "Desplazamiento accidental del camión cisterna (drive-away) sin desacople de manguera por fallo de frenos o ausencia de calzos",
+        consequences: "Desgarro de manguera, derrame masivo de producto tóxico e inflamable, nube tóxica letal y riesgo de ignición UVCE",
+        safeguards: "Acople seco Dry-Break con punto frangible (breakaway), cable de puesta a tierra interbloqueado con semáforo y pulsador ESD",
+        sIni: 5, lIni: 3, rIni: "CRÍTICO", action: "Instalar barrera física automática interbloqueada con detector de gas tóxico y ESDV-701 SIL-2",
+        resp: "Ing. Seguridad de Procesos", deadline: "2026-11-15", status: "En Revisión", sRes: 3, lRes: 1, rRes: "BAJO"
+      },
+      {
+        id: "TOX-002", plant: "toxic", plantName: "Cisterna Tóxica y TK-701", node: "Nodo 2 (Depósito TK-701)",
+        gw: "MÁS", param: "NIVEL", dev: "SOBRELLENADO DEL DEPÓSITO TK-701",
+        causes: "Fallo no seguro de transmisor de nivel LT-701 trabado en 50% combinado con error en verificación de volumen disponible",
+        consequences: "Rebose de líquido tóxico e inflamable por venteos, inundación del cubeto de retención y riesgo de rotura de techo frangible",
+        safeguards: "Cubeto estanco al 110%, sensor de nivel independiente LSHH con alarma LAHH en DCS",
+        sIni: 5, lIni: 3, rIni: "CRÍTICO", action: "Lazo SIS SIL-2 con interruptor de nivel LSHH de tecnología diversa que cierre automáticamente la válvula ESDV-701",
+        resp: "Ing. Instrumentación", deadline: "2026-10-25", status: "Pendiente", sRes: 2, lRes: 1, rRes: "BAJO"
+      },
+      {
+        id: "TOX-003", plant: "toxic", plantName: "Cisterna Tóxica y TK-701", node: "Nodo 3 (Scrubber y N2)",
+        gw: "MENOS", param: "PRESIÓN", dev: "PÉRDIDA DE INERTIZACIÓN / ENTRADA DE AIRE",
+        causes: "Corte de suministro de nitrógeno N2 de blanketing o fallo cerrado de la válvula reguladora PCV durante el bombeo de vaciado",
+        consequences: "Entrada de aire atmosférico al depósito, formación de atmósfera inflamable en el espacio de vapor y riesgo de explosión interna",
+        safeguards: "Válvula rompedora de vacío con arrestallamas de deflagración certificado ATEX",
+        sIni: 5, lIni: 2, rIni: "ALTO", action: "Lazo PSL independiente con enclavamiento SIS de corte automático de bombas P-701 A/B ante pérdida de N2",
+        resp: "Ing. de Confiabilidad", deadline: "2026-12-05", status: "Pendiente", sRes: 3, lRes: 1, rRes: "BAJO"
+      },
+      {
+        id: "TOX-004", plant: "toxic", plantName: "Cisterna Tóxica y TK-701", node: "Nodo 4 (Bombas P-701 y Proceso)",
+        gw: "NO", param: "FLUJO", dev: "OPERACIÓN EN DESCARGA CERRADA (DEADHEADING)",
+        causes: "Cierre accidental de la válvula hacia proceso sin apertura de la línea de recirculación mínima",
+        consequences: "Sobrecalentamiento rápido del fluido tóxico en la voluta, vaporización, fallo del sello mecánico doble y fuga presurizada",
+        safeguards: "Línea de flujo mínimo con orificio calibrado a depósito TK-701, sello API Plan 53 presurizado",
+        sIni: 4, lIni: 3, rIni: "ALTO", action: "Instalar interruptor de bajo flujo FAL con parada instantánea del motor en < 5 s interbloqueada en DCS",
+        resp: "Ing. de Mantenimiento Mecánico", deadline: "2026-11-30", status: "Cerrada", sRes: 2, lRes: 1, rRes: "BAJO"
+      },
+      {
         id: "HDS-001", plant: "hds", plantName: "Unidad HDS", node: "Nodo 1 (Alimentación)",
         gw: "MENOS", param: "CAUDAL", dev: "MENOS CAUDAL GASÓLEO ALIMENTACIÓN",
         causes: "Disparo imprevisto de bomba P-601 A sin arranque automático de P-601 B o colmatación de filtro de succión",
@@ -2143,7 +2876,7 @@
       if (printDateEl) {
         printDateEl.textContent = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
       }
-      onPlantChange('hds');
+      onPlantChange('toxic');
       loadStoredWorksheet();
       setLopaMatrix(4, 4);
       calcLopaReduction();
@@ -2198,7 +2931,7 @@
       document.getElementById('pid-tag-badge').textContent = `P&ID: ${p.name} (${p.nodes.length} Nodos)`;
       document.getElementById('node-count-badge').textContent = `${p.nodes.length} Nodos Delimitados`;
 
-      ['hds', 'cstr', 'distillation', 'separator', 'furnace', 'cryo'].forEach(k => {
+      ['toxic', 'hds', 'cstr', 'distillation', 'separator', 'furnace', 'cryo'].forEach(k => {
         const svg = document.getElementById(`svg-plant-${k}`);
         if (svg) {
           if (k === plantKey) svg.classList.remove('hidden');
@@ -2277,7 +3010,7 @@
           }
         }
 
-        let prefix = currentPlant === 'distillation' ? 'dist' : (currentPlant === 'separator' ? 'sep' : (currentPlant === 'furnace' ? 'furnace' : currentPlant));
+        let prefix = currentPlant === 'distillation' ? 'dist' : (currentPlant === 'separator' ? 'sep' : (currentPlant === 'furnace' ? 'furnace' : (currentPlant === 'toxic' ? 'toxic' : currentPlant)));
         const g = document.getElementById(`${prefix}-node-${n.id}`);
         if (g) {
           const rect = g.querySelector('.node-box');
@@ -2293,9 +3026,12 @@
         }
       });
 
-      document.getElementById('active-node-tag').textContent = node.tag;
-      document.getElementById('active-node-title').textContent = node.title;
-      document.getElementById('active-node-design').textContent = node.design;
+      const tagEl = document.getElementById('active-node-tag');
+      if (tagEl) tagEl.textContent = node.tag;
+      const titleEl = document.getElementById('active-node-title');
+      if (titleEl) titleEl.textContent = node.title;
+      const designEl = document.getElementById('active-node-design');
+      if (designEl) designEl.textContent = node.design || node.intent || '';
 
       // Cargar primer caso del nodo
       currentWorkshopCaseIdx = 0;
